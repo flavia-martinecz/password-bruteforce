@@ -72,7 +72,7 @@ lesson this project makes visible.
 ## 2. Project structure
 
 ```
-password-generator/
+password-bruteforce/
 ├── LoginTarget.java       # the simulated login system (the "victim")
 ├── DictionaryAttack.java  # the attacker: reads the wordlist and guesses
 ├── wordlist.txt           # the list of candidate passwords, one per line
@@ -192,12 +192,12 @@ java DictionaryAttack my_other_list.txt
 
 ### Example 1 - password found
 
-With the defaults (`secret = "sunshine"`, which sits at line 40 of
+With the defaults (`secret = "sunshine"`, which is the 40th entry (line 42) of
 `wordlist.txt`), running `java DictionaryAttack` produces:
 
 ```
 Target: user 'admin' (simulated local login)
-Wordlist: D:\Github\password-generator\wordlist.txt
+Wordlist: D:\Github\password-bruteforce\wordlist.txt
 ----------------------------------------
 
 =========================================
@@ -219,7 +219,7 @@ small wordlist that does **not** contain it
 
 ```
 Target: user 'admin' (simulated local login)
-Wordlist: D:\Github\password-generator\nomatch.txt
+Wordlist: D:\Github\password-bruteforce\nomatch.txt
 ----------------------------------------
 
 Password NOT found in the wordlist.
