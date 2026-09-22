@@ -1,0 +1,10 @@
+# Compiled Java
+*.class
+
+# Editor / IDE
+.vscode/
+.idea/
+
+# System
+.DS_Store
+Thumbs.db
