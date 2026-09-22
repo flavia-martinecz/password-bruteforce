@@ -1,9 +1,9 @@
 # Password Brute-Force Lab
 
-A small, self-contained Java project that demonstrates a **dictionary attack**
+A Java project that demonstrates a **dictionary attack**
 (a form of brute-forcing) against a **simulated, local login**. Nothing here
 touches the network, a website, or a real account: the "target" is a class that
-lives inside the project. The goal is purely educational — to _understand_ how
+lives inside the project. The goal is purely educational - to _understand_ how
 password guessing works so you can _defend_ against it.
 
 ---
@@ -26,7 +26,7 @@ password guessing works so you can _defend_ against it.
 
 **Brute-forcing** is an attack that finds a secret (usually a password) by
 _trying candidates one after another_ until one works. It relies on no clever
-trick — only on the fact that a computer can test guesses very fast.
+trick - only on the fact that a computer can test guesses very fast.
 
 There are three common flavours:
 
@@ -60,7 +60,7 @@ in password strength.
 
 ### Why dictionary attacks work so well
 
-Pure brute-force of a long password is infeasible — but most passwords are _not_
+Pure brute-force of a long password is infeasible - but most passwords are _not_
 random. People pick `123456`, `password`, a pet name, a favourite team. A
 dictionary attack skips the astronomically large keyspace and only tries the few
 thousand passwords people _actually_ use. If your password is on that list, the
@@ -87,14 +87,14 @@ password-generator/
 | `LoginTarget.java`      | A stand-in for a real login server. It stores one username and the **hash** of one password, and answers only `true`/`false` to a guess. |
 | `DictionaryAttack.java` | The program you run. It opens the wordlist, tries each entry against the target, and reports the result and statistics.                  |
 | `wordlist.txt`          | 120 of the most common real-world passwords, one per line. Lines starting with `#` are comments.                                         |
-| `nomatch.txt`           | A 5-entry list used in [Sample output](#5-sample-output) Example 2 to show a run where the password is **not** found.                     |
+| `nomatch.txt`           | A 5-entry list used in [Sample output](#5-sample-output) Example 2 to show a run where the password is **not** found.                    |
 | `LICENSE`               | The MIT license text (see [License](#9-license)).                                                                                        |
 
 ---
 
 ## 3. Code walkthrough
 
-### `LoginTarget.java` — the target
+### `LoginTarget.java` - the target
 
 This class models how a _responsible_ login system stores a password. Two ideas
 matter:
@@ -111,7 +111,7 @@ matter:
 
   A hash is a one-way function: you can compute it from the password, but you
   cannot reverse it to recover the password. The **salt** is random data mixed
-  in so that two users with the same password get different hashes — this
+  in so that two users with the same password get different hashes - this
   defeats precomputed "rainbow table" lookups.
 
 - **It only answers yes/no.** The single public method verifies a guess by
@@ -132,7 +132,7 @@ matter:
   the password one byte at a time. The `attempts` counter simply records how
   much work the attacker had to do.
 
-### `DictionaryAttack.java` — the attacker
+### `DictionaryAttack.java` - the attacker
 
 The `main` method does four things:
 
@@ -163,7 +163,7 @@ The `main` method does four things:
 4. **Report.** It prints whether the password was found, how many attempts it
    took (read from the target via `target.getAttempts()`), and how long it ran.
 
-### `wordlist.txt` — the ammunition
+### `wordlist.txt` - the ammunition
 
 A plain-text list of the passwords that appear at the top of real breach
 datasets (`123456`, `password`, `qwerty`, ...). In a real engagement this file
@@ -173,7 +173,7 @@ might contain millions of entries; here it holds 120 so the demo runs instantly.
 
 ## 4. Build and run
 
-You need a JDK (Java 11 or newer — the code uses `String.strip()`).
+You need a JDK (Java 11 or newer - the code uses `String.strip()`).
 
 ```bash
 javac LoginTarget.java DictionaryAttack.java
@@ -190,7 +190,7 @@ java DictionaryAttack my_other_list.txt
 
 ## 5. Sample output
 
-### Example 1 — password found
+### Example 1 - password found
 
 With the defaults (`secret = "sunshine"`, which sits at line 40 of
 `wordlist.txt`), running `java DictionaryAttack` produces:
@@ -207,10 +207,10 @@ Attempts made : 40
 Time          : 4 ms
 ```
 
-The attack stopped after 40 tries — the moment it reached `sunshine` in the
+The attack stopped after 40 tries - the moment it reached `sunshine` in the
 list. A more common password (higher up the file) would need even fewer.
 
-### Example 2 — password not found
+### Example 2 - password not found
 
 Here the target still uses `secret = "sunshine"`, but we point the attack at a
 small wordlist that does **not** contain it
@@ -228,7 +228,7 @@ Time          : 1 ms
 ```
 
 Every entry was tried (all 5) and none matched, so the attack reports failure.
-This is exactly what happens when a password is not in the attacker's wordlist —
+This is exactly what happens when a password is not in the attacker's wordlist -
 the whole reason unpredictable passwords are safe against this technique.
 
 ---
@@ -239,12 +239,12 @@ the whole reason unpredictable passwords are safe against this technique.
    watch the "Attempts made" number change. The more common (higher) the
    password, the fewer attempts it takes.
 2. **Force a failure.** Set `secret` to something _not_ in the list (e.g.
-   `Tr0ub4dor&3xkcd!`). The attack now tries all 120 entries and fails —
+   `Tr0ub4dor&3xkcd!`). The attack now tries all 120 entries and fails -
    demonstrating why unpredictable passwords win.
 3. **Grow the list.** Add more entries to `wordlist.txt` (for example, passwords
    from a public leaked-password list) and see how many the attack cracks.
 4. **Feel the scale.** Change the character set / length idea from section 1 and
-   calculate the keyspace — notice how quickly pure brute-force becomes
+   calculate the keyspace - notice how quickly pure brute-force becomes
    impossible while a dictionary stays fast.
 
 ---
@@ -254,12 +254,12 @@ the whole reason unpredictable passwords are safe against this technique.
 The project deliberately shows both sides. To make brute-forcing impractical, a
 real system combines:
 
-- **Strong passwords** — long and unpredictable, so they are not in any
+- **Strong passwords** - long and unpredictable, so they are not in any
   wordlist and the keyspace is enormous.
-- **Rate limiting** — slow down or delay repeated login attempts.
-- **Account lockout** — temporarily block an account after N failed tries.
-- **Multi-factor authentication (MFA)** — a stolen password alone is not enough.
-- **Slow password hashing** — use `bcrypt`, `scrypt`, or `Argon2` instead of a
+- **Rate limiting** - slow down or delay repeated login attempts.
+- **Account lockout** - temporarily block an account after N failed tries.
+- **Multi-factor authentication (MFA)** - a stolen password alone is not enough.
+- **Slow password hashing** - use `bcrypt`, `scrypt`, or `Argon2` instead of a
   single fast `SHA-256`. These are intentionally expensive, so each guess costs
   the attacker far more time.
 
@@ -277,7 +277,7 @@ CTF).
 
 ## 9. License
 
-This project is released under the **MIT License** — see the [LICENSE](LICENSE)
+This project is released under the **MIT License** - see the [LICENSE](LICENSE)
 file for the full text. In short, you are free to use, copy, modify, and share
 it, provided the copyright and license notice are kept. It is a master's-degree
 coursework project, shared for educational purposes.
